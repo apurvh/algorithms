@@ -24,26 +24,32 @@ B.right = E
 
 C.right = F
 
+// ---tree definition complete---
 
-const stack = [A];
-const values = [];
+let current = A
+const visitedNodes = [];
+const stack = [];
 
+while (current){
 
-while (stack.length != 0){
-    // console.log("iteration started..");
-    const current = stack.pop();
-    // console.log("current:",current.value);
+    console.log(current.value)
 
-    if(current)values.push(current);
+    visitedNodes.push(current);
 
-    if(current.right)stack.push(current.right);
-    if(current.left)stack.push(current.left);
+    if(current.right) stack.push(current.right);
+    if(current.left) stack.push(current.left);
+
+    current = stack.pop()
 }
 
 console.log("dps using iterative method")
-for(value of values){
+for(value of visitedNodes){
     console.log(value.value);
 }
+
+
+// ------------------------
+
 
 // writing with recursion
 
