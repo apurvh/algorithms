@@ -35,7 +35,6 @@ var threeSum = function (nums) {
         l++;
         // -2 -2 0 0 2 2 -> in such cases we want to keep shifting the l
         // this avoids duplicate of 2nd val of triplet
-        // 3rd value is taken automatically
         while (arr[l] === arr[l - 1] && l < r) {
           l++;
         }
