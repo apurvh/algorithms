@@ -24,7 +24,6 @@ MinHeap.prototype.insert = function (item) {
     // reset parent and curr
     curr = parent;
     parent = Math.floor((curr - 1) / 2);
-    if (parent < 0) break; // if already top element then stop
   }
 };
 
@@ -40,7 +39,7 @@ MinHeap.prototype.extract = function () {
   ];
   const minVal = this.arr.pop();
 
-  // find the correct position
+  // find the correct position for the new root
   let curr = 0;
   let left = curr * 2 + 1;
   let right = curr * 2 + 2;
@@ -70,45 +69,41 @@ MinHeap.prototype.extract = function () {
   return minVal;
 };
 
-/**
- * Get size of the heap
- * @returns {integer}
- */
-MinHeap.prototype.size = function () {
-  return this.arr.length;
-};
-
-/**
- * Return the minimum element from the heap
- * @returns {integer}
- */
-MinHeap.prototype.getMin = function () {
-  return this.arr[0];
-};
-
-/**
- * @param {number[]} stones
- * @return {number}
- */
-var lastStoneWeight = function (stones) {
-  // get stones in a min heap
-  // note: we are simulating max heap with min heap by
-  // multiplying every val with -1
-
-  const heap = new MinHeap();
-  for (const stone of stones) {
-    heap.insert(stone * -1);
+// create a function that takes in an array and tests if it is a min heap
+function Test(arr) {
+  let minHeap = new MinHeap();
+  for (let i = 0; i < arr.length; i++) {
+    minHeap.insert(arr[i]);
   }
-
-  while (heap.size() > 1) {
-    const a = -1 * heap.extract();
-    const b = -1 * heap.extract();
-
-    const newStone = a - b;
-
-    newStone !== 0 && heap.insert(-1 * newStone);
+  // extract and store values in a new array
+  let newArr = [];
+  for (let i = 0; i < arr.length; i++) {
+    newArr.push(minHeap.extract());
   }
+  // sort the original array
+  arr.sort((a, b) => a - b);
+  // compare the new array with the original array
+  if (newArr.length !== arr.length) {
+    return false;
+  }
+  for (let i = 0; i < newArr.length; i++) {
+    if (newArr[i] !== arr[i]) {
+      return false;
+    }
+  }
+  return true;
+}
 
-  // console.log(heap.arr)
-  return heap.size() > 0 ? -1 * heap.arr[0] : 0;
-};
+// Test cases
+const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+const arr2 = [10, 9, 8, 7, 6, 5, 4, 3, 2, 1];
+const arr3 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+// random array with negative numbers, duplicates, and empty array
+const arr4 = [31, -1, 3, -5, 99, 1002, -5, -1111, 200, 0, 0, 0, 23];
+const arr5 = [31, -1, 3, -5, null, 99, 1002, -5, -1111, 200, null, 0, 0, 0, 23];
+
+// test all the cases
+console.log(Test(arr));
+console.log(Test(arr2));
+console.log(Test(arr3));
+console.log(Test(arr4));
