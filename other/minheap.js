@@ -67,6 +67,45 @@ MinHeap.prototype.extract = function () {
   return minVal;
 };
 
+/**
+ * Convert an array into a min heap
+ * @param {[]} arr
+ */
+MinHeap.prototype.heapify = function (arr) {
+  this.arr = [...arr];
+
+  for (let i = this.arr.length - 1; i >= 0; i--) {
+    // check current element and check if it satisfies the heap property
+
+    // let heapArrSize = this.arr.length - i;
+    let heapArrSize = this.arr.length;
+
+    let curr = i;
+    let left = curr * 2 + 1;
+    let right = curr * 2 + 2;
+
+    // get the index of min child
+    let min;
+    if (this.arr[left] === undefined) {
+      min = null;
+    } else if (this.arr[right] === undefined) {
+      min = left;
+    } else {
+      this.arr[left] < this.arr[right] ? (min = left) : (min = right);
+    }
+
+    // if the curr is greater than the min of child, swap
+    while (this.arr[curr] > this.arr[min]) {
+      [this.arr[curr], this.arr[min]] = [this.arr[min], this.arr[curr]];
+      // reset curr and min
+      curr = min;
+      left = curr * 2 + 1;
+      right = curr * 2 + 2;
+      min = this.arr[left] < this.arr[right] ? left : right;
+    }
+  }
+};
+
 // create a function that takes in an array and tests if it is a min heap
 function Test(arr) {
   let minHeap = new MinHeap();
@@ -101,9 +140,23 @@ const arr3 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 // random array with negative numbers, duplicates, and empty array
 const arr4 = [31, -1, 3, -5, 99, 1002, -5, -1111, 200, 0, 0, 0, 23];
 const arr5 = [31, -1, 3, -5, null, 99, 1002, -5, -1111, 200, null, 0, 0, 0, 23];
+const arr6 = [-3, -1, -2, -4];
 
 // test all the cases
 console.log(Test(arr));
 console.log(Test(arr2));
 console.log(Test(arr3));
 console.log(Test(arr4));
+
+// Test heapify
+function TestHeapify(arr) {
+  let minHeap = new MinHeap();
+  minHeap.heapify(arr);
+  console.log(minHeap.arr);
+}
+
+// TestHeapify(arr);
+// TestHeapify(arr2);
+// TestHeapify(arr3);
+// TestHeapify(arr4);
+TestHeapify(arr6);
