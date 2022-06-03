@@ -15,6 +15,7 @@ var isValidSudoku = function (board) {
 
       if (boardVal === '.') continue;
 
+      // if hashmap already contains the value
       if (
         (rows[i] || []).includes(boardVal) ||
         (cols[j] || []).includes(boardVal) ||
@@ -22,6 +23,7 @@ var isValidSudoku = function (board) {
       )
         return false;
 
+      // if hashmap does not contain the value
       rows[i] = [...(rows[i] || []), boardVal];
       cols[j] = [...(cols[j] || []), boardVal];
       grid3x3[boxNum] = [...(grid3x3[boxNum] || []), boardVal];
