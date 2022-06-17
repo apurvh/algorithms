@@ -6,27 +6,39 @@ var isValidSudoku = function (board) {
   // checking duplicates with hashmap
   const cols = {};
   const rows = {};
-  const grid3x3 = {};
+  const boxes = {};
 
+  // initiate hashmaps for rows and columns
+  for (let n = 0; n < board.length; n++) {
+    cols[n] = new Set();
+    rows[n] = new Set();
+  }
+  // initiate hashmap for 3 x 3 boxes
+  for (let i = 0; i < board.length; i++) {
+    for (let j = 0; j < board.length; j++) {
+      const boxId = 3 * ~~(i / 3) + ~~(j / 3);
+      boxes[boxId] = new Set();
+    }
+  }
+
+  // check if valid sudoku
   for (let i = 0; i < 9; i++) {
     for (let j = 0; j < 9; j++) {
-      const boardVal = board[i][j];
-      const boxNum = 3 * Math.floor(i / 3) + Math.floor(j / 3);
+      const curr = board[i][j];
+      const boxId = 3 * ~~(i / 3) + ~~(j / 3);
 
-      if (boardVal === '.') continue;
+      // . signifies no value so skip
+      if (curr === '.') continue;
 
-      // if hashmap already contains the value
-      if (
-        (rows[i] || []).includes(boardVal) ||
-        (cols[j] || []).includes(boardVal) ||
-        (grid3x3[boxNum] || []).includes(boardVal)
-      )
-        return false;
+      // check if duplicate
+      if (rows[i].has(curr)) return false;
+      if (cols[j].has(curr)) return false;
+      if (boxes[boxId].has(curr)) return false;
 
-      // if hashmap does not contain the value
-      rows[i] = [...(rows[i] || []), boardVal];
-      cols[j] = [...(cols[j] || []), boardVal];
-      grid3x3[boxNum] = [...(grid3x3[boxNum] || []), boardVal];
+      // add to sets
+      rows[i].add(curr);
+      cols[j].add(curr);
+      boxes[boxId].add(curr);
     }
   }
   return true;
