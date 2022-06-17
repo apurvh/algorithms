@@ -11,20 +11,19 @@
  * @return {TreeNode}
  */
 var invertTree = function (root) {
-  // checking if root exists, takes care of all edge cases
-  if (root) {
-    // storing nodes in temp
-    const r = root.right;
-    const l = root.left;
+  // edge case
+  if (!root) return null;
 
-    // reversing branches
-    root.left = r;
-    root.right = l;
+  const temp = root.left;
 
-    // recursively doing it on all branches
-    invertTree(root.left);
-    invertTree(root.right);
-  }
+  // invert the nodes
+  root.left = root.right;
+  root.right = temp;
+
+  // recursively do the inversion for..
+  // left and right child nodes
+  invertTree(root.left);
+  invertTree(root.right);
 
   return root;
 };
