@@ -4,23 +4,15 @@
  * @return {number[]}
  */
 var twoSum = function (numbers, target) {
-  let ptrL = 0;
-  let ptrR = numbers.length - 1;
+  let l = 0;
+  let r = numbers.length - 1;
 
   // using two pointers technique
   // stop when pointers cross
-  while (ptrL < ptrR) {
-    // if sum is greater than target, shift pointer towards lower values
-    while (numbers[ptrL] + numbers[ptrR] > target) {
-      ptrR--;
-    }
-
-    // if sum is less than target, shift pointer towards greater values
-    while (numbers[ptrL] + numbers[ptrR] < target) {
-      ptrL++;
-    }
-
-    // return if sum is equal to target
-    if (numbers[ptrR] + numbers[ptrL] === target) return [ptrL + 1, ptrR + 1];
+  while (l < r) {
+    let currSum = numbers[l] + numbers[r];
+    if (currSum > target) r--;
+    else if (currSum < target) l++;
+    else return [l + 1, r + 1];
   }
 };
